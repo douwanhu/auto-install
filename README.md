@@ -1,2 +1,1 @@
-# auto-install
-auto-install script of Multi-Honeypots
+Autoinstall Multi-Honeypots on Ubuntu 16.04
