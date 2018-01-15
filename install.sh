@@ -270,7 +270,14 @@ fuECHO "### Patching docker defaults."
 tee -a /etc/default/docker <<EOF
 DOCKER_OPTS="-r=false"
 EOF
-
+# aliyuncs proxy for docker
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+    "registry-mirrors": ["https://igcw3fmv.mirror.aliyuncs.com"] 
+}
+EOF
+sudo systemctl daemon-reload
 # Let's restart docker for proxy changes to take effect
 systemctl restart docker
 sleep 5
@@ -279,11 +286,11 @@ sleep 5
 # getting t-pot git repo
 fuECHO "### Cloning T-Pot Repository."
 cwdir=$(pwd)
-git clone https://github.com/dtag-dev-sec/tpotce -b 16.10
-cp -R $cwdir/tpotce/installer/ $cwdir
-rm -rf $cwdir/tpotce/
-rm $cwdir/installer/install.sh $cwdir/installer/rc.local.install
-cwdir=$cwdir/installer
+git clone https://github.com/douwanhu/Multi-Honeypots.git
+#cp -R $cwdir/tpotce/installer/ $cwdir
+#rm -rf $cwdir/tpotce/
+#rm $cwdir/installer/install.sh $cwdir/installer/rc.local.install
+#cwdir=$cwdir/installer
 cd $cwdir
 
 # we need to create a couple of directories
