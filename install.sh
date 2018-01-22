@@ -290,7 +290,7 @@ git clone https://github.com/douwanhu/Multi-Honeypots.git
 #cp -R $cwdir/tpotce/installer/ $cwdir
 #rm -rf $cwdir/tpotce/
 #rm $cwdir/installer/install.sh $cwdir/installer/rc.local.install
-#cwdir=$cwdir/installer
+cwdir=$cwdir/Multi-Honeypots
 cd $cwdir
 
 # we need to create a couple of directories
@@ -377,14 +377,11 @@ EOF
 
 # Let's create some files and folders
 fuECHO "### Creating some files and folders."
-mkdir -p /data/conpot/log \
-         /data/cowrie/log/tty/ /data/cowrie/downloads/ /data/cowrie/keys/ /data/cowrie/misc/ \
+mkdir -p /data/cowrie/log/tty/ /data/cowrie/downloads/ /data/cowrie/keys/ /data/cowrie/misc/ \
          /data/dionaea/log /data/dionaea/bistreams /data/dionaea/binaries /data/dionaea/rtp /data/dionaea/roots/ftp /data/dionaea/roots/tftp /data/dionaea/roots/www /data/dionaea/roots/upnp \
-         /data/elasticpot/log \
          /data/elk/data /data/elk/log /data/elk/logstash/conf \
          /data/glastopf /data/honeytrap/log/ /data/honeytrap/attacks/ /data/honeytrap/downloads/ \
-         /data/emobility/log \
-         /data/suricata/log /home/$myuser/.ssh/
+         /home/$myuser/.ssh/
 
 
 # Let's take care of some files and permissions
@@ -462,13 +459,7 @@ myEXTIP=$(curl myexternalip.com/raw)
 sed -i "s#IP:.*#IP: $myLOCALIP, $myEXTIP#" /etc/issue
 sed -i "s#SSH:.*#SSH: ssh -l $myuser -p 64295 $myLOCALIP#" /etc/issue
 sed -i "s#WEB:.*#WEB: https://$myLOCALIP:64297#" /etc/issue
-
-tee /data/ews/conf/ews.ip << EOF
-[MAIN]
-ip = $myEXTIP
-EOF
 echo $myLOCALIP > /data/elk/logstash/mylocal.ip
-chown $myuser:$myuser /data/ews/conf/ews.ip
 
 # change user for wetty 
 sed -i 's/tsec/'$myuser'/' /etc/systemd/system/wetty.service
