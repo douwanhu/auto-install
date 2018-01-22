@@ -19,15 +19,6 @@ echo $1 "$2"
 tput setaf $myWHT
 }
 
-# used for hostname
-fuRANDOMWORD () {
-  local myWORDFILE="$1"
-  local myLINES=$(cat $myWORDFILE  | wc -l)
-  local myRANDOM=$((RANDOM % $myLINES))
-  local myNUM=$((myRANDOM * myRANDOM % $myLINES + 1))
-  echo -n $(sed -n "$myNUM p" $myWORDFILE | tr -d \' | tr A-Z a-z)
-}
-
 
 fuECHO ""
 echo "
@@ -287,9 +278,6 @@ sleep 5
 fuECHO "### Cloning T-Pot Repository."
 cwdir=$(pwd)
 git clone https://github.com/douwanhu/Multi-Honeypots.git
-#cp -R $cwdir/tpotce/installer/ $cwdir
-#rm -rf $cwdir/tpotce/
-#rm $cwdir/installer/install.sh $cwdir/installer/rc.local.install
 cwdir=$cwdir/Multi-Honeypots
 cd $cwdir
 
@@ -406,9 +394,7 @@ cp    $cwdir/usr/share/dict/* /usr/share/dict/
 
 # Let's set the hostname
 fuECHO "### Setting a new hostname."
-a=$(fuRANDOMWORD /usr/share/dict/a.txt)
-n=$(fuRANDOMWORD /usr/share/dict/n.txt)
-myHOST=$a$n
+myHOST=Multi-Honeypots
 hostnamectl set-hostname $myHOST
 sed -i 's#127.0.1.1.*#127.0.1.1\t'"$myHOST"'#g' /etc/hosts
 
